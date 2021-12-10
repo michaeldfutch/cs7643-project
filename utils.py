@@ -47,7 +47,6 @@ def train(epoch, data_loader, model, optimizer, criterion):
         if torch.cuda.is_available():
             data = data.cuda()
             target = target.cuda()
-            torch.cuda.empty_cache()
 
         #############################################################################
         # TODO: Complete the body of training loop                                  #
@@ -55,12 +54,12 @@ def train(epoch, data_loader, model, optimizer, criterion):
         #       2. Compute batch loss                                               #
         #       3. Compute gradients and update model parameters                    #
         #############################################################################
-        optimizer.zero_grad()
+        model.train()
+        out = model(data)
+        loss = criterion(out, target)
 
-        out = model.forward(data)
-        output = criterion(out, target)
-        output.backward()
-        loss = output.item()
+        optimizer.zero_grad()
+        loss.backward()
         optimizer.step()
 
         
@@ -87,7 +86,7 @@ def validate(epoch, val_loader, model, criterion):
     losses = AverageMeter()
     acc = AverageMeter()
 
-    num_class = 20
+    num_class = 82
     cm = torch.zeros(num_class, num_class)
     # evaluation loop
     for idx, (data, target) in enumerate(val_loader):
@@ -101,11 +100,10 @@ def validate(epoch, val_loader, model, criterion):
         #       HINT: torch.no_grad()                                               #
         #############################################################################
         
+        model.eval()
         with torch.no_grad():
-            model.eval()
-            out = model.forward(data)
-            output = criterion(out, target)
-            loss = output.item()
+            out = model(data)
+            loss = criterion(out, target)
 
         #############################################################################
         #                              END OF YOUR CODE                             #

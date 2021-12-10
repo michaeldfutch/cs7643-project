@@ -10,12 +10,12 @@ class SimpleCNN(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Flatten(1),
-            nn.Linear(5408,out_features=20)
+            nn.Linear(5408,out_features=82)
         )
 
 
     def forward(self, x):
         outs = None
-        x = torch.reshape(x,(x.shape[0], 3, 32, 32))
+        #x = torch.reshape(x,(x.shape[0], 3, 32, 32))
         outs = self.model(x)
         return outs
