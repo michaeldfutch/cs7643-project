@@ -132,3 +132,5 @@ dmypy.json
 # futch adds
 .DS_Store
 /Images
+.tmp.drivedownload
+.tmp.driveupload

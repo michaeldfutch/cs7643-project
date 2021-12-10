@@ -1,5 +1,7 @@
-torch==1.7.1
+torch==1.8.1
 tqdm
 numpy
 jupyter
 notebook
+torchvision
+timm==0.3.2
